@@ -1,19 +1,50 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
-import Logo from './logo';
+import ApiService from './utils/ApiService';
+import Loading from './components/Loading/Loading';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
+  componentDidMount() {
+    // GET list of dinosaurs from API
+    ApiService.getDinoList()
+      .then(
+        res => {
+          // Set state with fetched dinos list
+          this.setState({
+            dinos: res
+          });
+        },
+        error => {
+          // An error occurred, set state with error
+          this.setState({
+            error: error
+          });
+        }
+      );
+  }
+
+  render(props, state) {
+    return(
       <div className="App">
-        <div className="App-header">
-          <Logo width="80" height="80"/>
-          <h2>Welcome to Inferno</h2>
+        <header className="App-header bg-primary clearfix">
+          <h1 className="text-center">Dinosaurs</h1>
+        </header>
+        <div className="App-content container-fluid">
+          <div className="row">{
+              state.dinos ? (
+                <ul>{
+                    state.dinos.map((dino) => (
+                      <li key={dino.id}>{dino.name}</li>
+                    ))
+                  }
+                </ul>
+              ) : (
+                <Loading error={state.error} />
+              )
+            }
+          </div>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
       </div>
     );
   }
