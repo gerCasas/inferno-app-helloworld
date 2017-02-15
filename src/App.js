@@ -2,6 +2,7 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 import ApiService from './utils/ApiService';
 import Loading from './components/Loading/Loading';
+import DinoList from './components/DinoList/DinoList';
 import './App.css';
 
 class App extends Component {
@@ -33,12 +34,13 @@ class App extends Component {
         <div className="App-content container-fluid">
           <div className="row">{
               state.dinos ? (
-                <ul>{
-                    state.dinos.map((dino) => (
-                      <li key={dino.id}>{dino.name}</li>
-                    ))
-                  }
-                </ul>
+                // <ul>{
+                //     state.dinos.map((dino) => (
+                //       <li key={dino.id}>{dino.name}</li>
+                //     ))
+                //   }
+                // </ul>
+                <DinoList dinos={state.dinos} />
               ) : (
                 <Loading error={state.error} />
               )
