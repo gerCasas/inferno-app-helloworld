@@ -3,6 +3,7 @@ import Component from 'inferno-component';
 import ApiService from './../../utils/ApiService';
 import Loading from './../Loading/Loading';
 import './DinoList.css';
+import DinoDetail from './../DinoDetail/DinoDetail';
 
 /*
   This function is pulled out of the class to
@@ -58,6 +59,7 @@ class DinoList extends Component {
               props.dinos.map((dino) => (
                 <li key={dino.id}>
                   <a
+                    //si el state.active es igual al dino.id entonces el className sera active para este <a> y se le aplicara es css para a.active
                     className={state.active === dino.id ? 'active' : ''}
                     onClick={linkEvent({id: dino.id, instance: this}, getDinoById)}>
                     {dino.name}
@@ -69,8 +71,8 @@ class DinoList extends Component {
         </div>
         <div className="col-sm-9">
           {
-            !state.loading && !state.error && state.detail ? (
-              <p>{state.detail.name}</p>
+            !state.loading && !state.error ? (
+              <DinoDetail dino={state.detail} />
             ) : (
               <Loading error={state.error} />
             )
